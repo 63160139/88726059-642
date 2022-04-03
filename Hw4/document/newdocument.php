@@ -1,4 +1,10 @@
 <?php
+session_start();
+echo "Welcome ".$_SESSION['stf_name'];
+
+if(!isset($_SESSION['loggedin'])){
+    header("location: login.php");
+}
 require_once("dbconfig.php");
 
 
@@ -22,7 +28,7 @@ if ($_POST){
     
     $sql = "INSERT 
             INTO documents (doc_num,doc_title,doc_start_date,doc_to_date,doc_status,doc_file_name) 
-            VALUES (?, ?, ?, ?, ?, ?)";
+            VALUES (?, ?, ?, ?, ?, ?);";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("ssssss",$doc_num,$doc_title,$doc_start_date,$doc_to_date,$doc_status,$doc_file_name);
     $stmt->execute();
@@ -54,6 +60,31 @@ if ($_POST){
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        function checkdocnum() {
+        var doc_num = document.getElementById("doc_num").value;
+        //document.getElementById("disp").innerHTML = doc_num;
+        var xhttp = new XMLHttpRequest();
+        console.log("hello");
+        xhttp.onreadystatechange = function(){
+            if (this.readyState == 4 && this.status ==200 ) {
+                 //document.getElementByid("disp").innerHTML = this.responseText;
+                if (this.responseText != ""){
+                    document.getElementById("submit").disabled = true;
+                    document.getElementById("disp").innerHTML = "<a href='addstafftodocument.php?id=" + 
+                    this.responseText + "'>จัดการกรรมการ</a>";
+                }else{
+                    document.getElementById("submit").disabled = false;
+                    document.getElementById("disp").innerHTML = "";
+                }
+            }
+        };
+        //console.log("hello");
+        xhttp.open("GET", "checkdocnum.php?docnum=" + doc_num, true);
+        //console.log("hello");
+        xhttp.send();
+    }
+    </script>
 </head>
 
 <body>
@@ -62,7 +93,8 @@ if ($_POST){
         <form action="newdocument.php" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="doc_num">เลขที่คำสั่ง</label>
-                <input type="text" class="form-control" name="doc_num" id="doc_num">
+                <input type="text" class="form-control" name="doc_num" id="doc_num" onkeyup="checkdocnum()">
+                <h3><div id = "disp"></div></h3>
             </div>
             <div class="form-group">
                 <label for="doc_title">ชื่อคำสั่ง</label>
@@ -85,8 +117,9 @@ if ($_POST){
                 <label for="doc_file_name">ชื่อไฟล์เอกสาร</label>
                 <input type="file" class="form-control" name="doc_file_name" id="doc_file_name">
             </div>
+            <br>
             <button type="button" class="btn btn-warning" onclick="history.back();">Back</button>
-            <button type="submit" class="btn btn-success">Save</button>
+            <button type="submit" class="btn btn-success" id="submit">Save</button>
         </form>
 </body>
 

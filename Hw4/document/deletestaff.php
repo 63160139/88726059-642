@@ -1,4 +1,9 @@
 <?php
+session_start();
+
+if(!isset($_SESSION['loggedin'])){
+    header("location: login.php");
+}
 require_once("dbconfig.php");
 
 
@@ -29,6 +34,7 @@ if ($_POST){
     $result = $stmt->get_result();
     $row = $result->fetch_object();
 }
+echo "Welcome ".$_SESSION['stf_name'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,6 +59,14 @@ if ($_POST){
             <tr>
                 <th>ชื่อ-นามสกุล</th>
                 <td><?php echo $row->stf_name;?></td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td><?php echo $row->username;?></td>
+            </tr>
+            <tr>
+                <th>password</th>
+                <td><?php echo base64_decode($row->passwd);?></td>
             </tr>
 
 

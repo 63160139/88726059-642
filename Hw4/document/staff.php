@@ -1,3 +1,11 @@
+<?php
+session_start();
+echo "Welcome ".$_SESSION['stf_name'];
+
+if(!isset($_SESSION['loggedin'])){
+    header("location: login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 

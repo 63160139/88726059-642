@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(!isset($_SESSION['loggedin'])){
+    header("location: login.php");
+}
+echo "Welcome ".$_SESSION['stf_name'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +20,9 @@
 <body>
 <div align =center class="container">
     <h1 align =center>คำสั่งแต่งตั้ง</h1>
-    <h2 align =right>รายการคำสั่งแต่งตั้ง &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a href='newdocument.php'><span class='glyphicon glyphicon-plus'></span></a>
+    <h2 align =right>รายการคำสั่งแต่งตั้ง&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+    <a href='logout.php'><span class='glyphicon glyphicon-off' style='color:#FF0000;'></span></a>
+        <a href='newdocument.php'><span class='glyphicon glyphicon-plus'></span></a>
     <a href='staff.php'><span class='glyphicon glyphicon-user'></span></a>
     <a href='selectdocument.php'><span class='glyphicon glyphicon-search'></span></a></h2>
         <form align =center action="#" method="post">

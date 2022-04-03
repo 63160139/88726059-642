@@ -1,16 +1,24 @@
 <?php
+session_start();
+
+if(!isset($_SESSION['loggedin'])){
+    header("location: login.php");
+}
 require_once("dbconfig.php");
 
 
 if ($_POST){
     $stf_code = $_POST['stf_code'];
     $stf_name = $_POST['stf_name'];
+    $admin = $_POST['admin'];
+    $username = $_POST['username'];
+    $password = base64_encode($_POST['password']);
 
     $sql = "INSERT 
-            INTO staff (stf_code,stf_name) 
-            VALUES (?, ?)";
+            INTO staff (stf_code,stf_name,is_admin,username,passwd) 
+            VALUES (?, ?, ?, ?, ?)";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("ss",$stf_code,$stf_name,);
+    $stmt->bind_param("sssss",$stf_code,$stf_name,$admin,$username,$password);
     $stmt->execute();
 
     
@@ -40,6 +48,20 @@ if ($_POST){
             <div class="form-group">
                 <label for="stf_name">ชื่อ-นามสกุล</label>
                 <input type="text" class="form-control" name="stf_name" id="stf_name">
+            </div>
+            <div class="form-group">
+                <label  for="username">Username</label>
+                <input type="text" class="form-control" name="username" id="username">
+            </div>
+            <div class="form-group">
+                <label  for="password">Password</label>
+                <input  type="password" class="form-control" name="password" id="passwd">
+            </div>
+            <div class="form-group">
+                <label for="admin">ตำแหน่ง</label>
+                <br>
+                <input type="radio"  name="admin" id="is_admin" value="Y"> ADMIN
+                <input type="radio"  name="admin" id="is_admin" value=""> USER
             </div>
             <button type="button" class="btn btn-warning" onclick="history.back();">Back</button>
             <button type="submit" class="btn btn-success">Save</button>

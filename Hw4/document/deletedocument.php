@@ -8,6 +8,15 @@ if ($_POST){
 
     
     $sql = "DELETE 
+            FROM doc_staff
+            WHERE doc_staff.doc_id = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+
+
+    
+    $sql = "DELETE 
             FROM documents 
             WHERE id = ?";
     $stmt = $mysqli->prepare($sql);

@@ -41,6 +41,7 @@ if ($_POST){
                 <label for="stf_name">ชื่อ-นามสกุล</label>
                 <input type="text" class="form-control" name="stf_name" id="stf_name">
             </div>
+            <button type="button" class="btn btn-warning" onclick="history.back();">Back</button>
             <button type="submit" class="btn btn-success">Save</button>
         </form>
 </body>

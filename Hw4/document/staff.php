@@ -11,11 +11,14 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1>staff | <a href='newstaff.php'><span class='glyphicon glyphicon-thumbs-up'></span></a></h1>
-        <form action="#" method="post">
-            <input type="text" name="kw" placeholder="Enter staff name" value="">
-            <input type="submit">
+    <div  align =center class="container">
+    <h1 align =right>คณะกรรมการ&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <a href='document.php'><span class='glyphicon glyphicon-home'></span></a></h1>
+    <h2 align =center>รายชื่อคณะกรรมการ </h2>
+    <h3 align =center>เพิ่มรายชื่อ | <a href='newstaff.php'><span class='glyphicon glyphicon-plus'></span></a></h3>
+        <form  align =center action="#" method="post">
+            <input type="text" name="kw" placeholder="Enter staff name" value="" size=140>
+            <button type="submit" class="glyphicon glyphicon-search btn btn-info"></button>
         </form>
 
         <?php

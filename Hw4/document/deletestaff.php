@@ -54,6 +54,9 @@ if ($_POST){
                 <th>ชื่อ-นามสกุล</th>
                 <td><?php echo $row->stf_name;?></td>
             </tr>
+
+
+            
         </table>
         <form action="deletestaff.php" method="post">
             <input type="hidden" name="id" value="<?php echo $row->id;?>">

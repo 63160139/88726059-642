@@ -55,6 +55,7 @@ if ($_POST){
                 <input type="text" class="form-control" name="stf_name" id="stf_name" value="<?php echo $row->stf_name;?>">
             </div>
             <input type="hidden" name="id" value="<?php echo $row->id;?>">
+            <button type="button" class="btn btn-warning" onclick="history.back();">Back</button>
             <button type="submit" class="btn btn-success">Update</button>
         </form>
 </body>

@@ -8,8 +8,17 @@ if ($_POST){
     $doc_start_date = $_POST['doc_start_date'];
     $doc_to_date = $_POST['doc_to_date'];
     $doc_status = $_POST['doc_status'];
-    $doc_file_name = $_POST['doc_file_name'];
+    $doc_file_name = $_FILES['doc_file_name'] ["name"];
 
+    // insert a record by prepare and bind
+    // The argument may be one of four types:
+    //  i - integer
+    //  d - double
+    //  s - string
+    //  b - BLOB
+
+    // ในส่วนของ INTO ให้กำหนดให้ตรงกับชื่อคอลัมน์ในตาราง documents
+    // ต้องแน่ใจว่าคำสั่ง INSERT ทำงานใด้ถูกต้อง - ให้ทดสอบก่อน
     
     $sql = "INSERT 
             INTO documents (doc_num,doc_title,doc_start_date,doc_to_date,doc_status,doc_file_name) 
@@ -18,8 +27,21 @@ if ($_POST){
     $stmt->bind_param("ssssss",$doc_num,$doc_title,$doc_start_date,$doc_to_date,$doc_status,$doc_file_name);
     $stmt->execute();
 
-    
+    //uploadpart
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["doc_file_name"]["name"]);
+    $fileType="pdf";
+    $realname="a.pdf";
+    if (move_uploaded_file($_FILES["doc_file_name"]["tmp_name"], $target_file)) {
+  //echo "The file ". htmlspecialchars( basename( $_FILES["doc_file_name"]["name"])). " has been uploaded.";
+    } else {
+  //echo "Sorry, there was an error uploading your file.";
+    }
+    //
+
+    // redirect ไปยัง document.php
     header("location: document.php");
+
 }
 ?>
 <!DOCTYPE html>
@@ -36,8 +58,8 @@ if ($_POST){
 
 <body>
     <div class="container">
-        <h1>เพิ่มคำสั่งแต่งตั้ง</h1>
-        <form action="newdocument.php" method="post">
+        <h1>Add an document</h1>
+        <form action="newdocument.php" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="doc_num">เลขที่คำสั่ง</label>
                 <input type="text" class="form-control" name="doc_num" id="doc_num">
@@ -48,20 +70,22 @@ if ($_POST){
             </div>
             <div class="form-group">
                 <label for="doc_start_date">วันที่เริ่มต้นคำสั่ง</label>
-                <input type="text" class="form-control" name="doc_start_date" id="doc_start_date">
+                <input type="date" class="form-control" name="doc_start_date" id="doc_start_date">
             </div>
             <div class="form-group">
                 <label for="doc_to_date">วันที่สิ้นสุด</label>
-                <input type="text" class="form-control" name="doc_to_date" id="doc_to_date">
+                <input type="date" class="form-control" name="doc_to_date" id="doc_to_date">
             </div>
             <div class="form-group">
                 <label for="doc_status">สถานะ</label>
-                <input type="text" class="form-control" name="doc_status" id="doc_status">
+                <input type="radio"  name="doc_status" id="doc_status" value="Active"> Active
+                <input type="radio"  name="doc_status" id="doc_status" value="Expired"> Expired
             </div>
             <div class="form-group">
                 <label for="doc_file_name">ชื่อไฟล์เอกสาร</label>
-                <input type="text" class="form-control" name="doc_file_name" id="doc_file_name">
+                <input type="file" class="form-control" name="doc_file_name" id="doc_file_name">
             </div>
+            <button type="button" class="btn btn-warning" onclick="history.back();">Back</button>
             <button type="submit" class="btn btn-success">Save</button>
         </form>
 </body>
